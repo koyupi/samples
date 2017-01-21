@@ -1,6 +1,7 @@
 package jp.co.samples.stream;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
@@ -15,6 +16,8 @@ public class StreamSamples {
     private static final int MODE_LAMBDA = 0;
     /** Use predicate implements class */
     private static final int MODE_PREDICATE = 1;
+    /** Use function implements class */
+    private static final int MODE_FUNCTION = 2;
 
     /**
      * Main method.
@@ -27,6 +30,10 @@ public class StreamSamples {
         // filter test.
         filterTest(MODE_LAMBDA);
         filterTest(MODE_PREDICATE);
+
+        // map test.
+        mapTest(MODE_LAMBDA);
+        mapTest(MODE_FUNCTION);
     }
 
     /**
@@ -39,7 +46,7 @@ public class StreamSamples {
     private static void filterTest(int mode) {
 
         // Generate sample list.
-        List<String> sampleList = generateSampleList("mlb", "nhl", "nba", "mls",
+        List<String> sampleList = Arrays.asList("mlb", "nhl", "nba", "mls",
                 "nfl");
 
         List<String> filterList = null;
@@ -52,7 +59,7 @@ public class StreamSamples {
             break;
         // Use predicate implements class.
         case MODE_PREDICATE:
-            Predicate<String> filter = new StartWithPredicate("n");
+            Predicate<String> filter = new StartWithPredicate("m");
             filterList = sampleList.stream().filter(filter)
                     .collect(Collectors.toList());
             break;
@@ -63,28 +70,41 @@ public class StreamSamples {
 
         // Print results.
         System.out.println("---------- start filter result ----------");
-        for (String result : filterList) {
-            System.out.println(result);
-        }
+        filterList.forEach(s -> System.out.println(s));
         System.out.println("---------- end filter result ----------");
     }
 
     /**
-     * Generate sample list.
+     * map test method.<br>
      * 
-     * @param strings
-     *            add strings.
-     * @return sample list
      */
-    private static List<String> generateSampleList(String... strings) {
+    private static void mapTest(int mode) {
 
-        List<String> list = new ArrayList<>();
+        List<String> sampleList = Arrays.asList("abc", "bcd", "cde", "def");
 
-        // Add strings.
-        for (String arg : strings) {
-            list.add(arg);
+        List<String> mapList = null;
+        // map values.
+        switch (mode) {
+        // Use lambda.
+        case MODE_LAMBDA:
+            mapList = sampleList.stream().map(s -> "[" + s + "]")
+                    .collect(Collectors.toList());
+            break;
+        // Use function implements class.
+        case MODE_FUNCTION:
+            MapFunction function = new MapFunction();
+            mapList = sampleList.stream().map(function)
+                    .collect(Collectors.toList());
+            break;
+        // Generate empty list.
+        default:
+            mapList = Collections.emptyList();
+            break;
         }
 
-        return list;
+        // Print results.
+        System.out.println("---------- start map result ----------");
+        mapList.forEach(s -> System.out.println(s));
+        System.out.println("---------- end map result ----------");
     }
 }

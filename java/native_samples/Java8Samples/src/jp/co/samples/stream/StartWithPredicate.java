@@ -26,5 +26,4 @@ public class StartWithPredicate implements Predicate<String> {
 
         return value.startsWith(this.prefix);
     }
-
 }
