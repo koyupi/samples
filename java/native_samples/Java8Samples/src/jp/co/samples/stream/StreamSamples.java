@@ -1,6 +1,5 @@
 package jp.co.samples.stream;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -87,7 +86,7 @@ public class StreamSamples {
         switch (mode) {
         // Use lambda.
         case MODE_LAMBDA:
-            mapList = sampleList.stream().map(s -> "[" + s + "]")
+            mapList = sampleList.stream().map(s -> String.format("[%s]", s))
                     .collect(Collectors.toList());
             break;
         // Use function implements class.
