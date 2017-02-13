@@ -12,4 +12,15 @@
 		<constructor-arg type="String" index="0"
 			value="Constructor Name"></constructor-arg>
 	</bean>
+	<!-- Extends Class -->
+	<bean id="bean3" class="jp.co.samples.bean.SampleBean3" parent="bean2">
+		<property name="age" value="15"></property>
+	</bean>
+	<!-- Use Autowire -->
+	<bean id="bean4_1" class="jp.co.samples.bean.SampleBean4"
+		autowire="byType">
+	</bean>
+	<bean id="bean4_2" class="jp.co.samples.bean.SampleBean4">
+		<property name="bean1" ref="bean1"></property>
+	</bean>
 </beans>
